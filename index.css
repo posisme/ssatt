@@ -1,0 +1,55 @@
+@media print {
+	.datep{
+		display:none;
+	}
+	.spandate{
+		display:none;
+	}
+	.classlist{
+		overflow:auto;
+		width:3in;
+		height:4.5in;
+		float:left;
+		border:1px solid black;
+		padding:.25in;
+	}
+	.classlist h1{
+		font-size:1.3em;
+		text-transform: uppercase;
+	}
+	.classlist p{
+		float:left;
+		width:50%;
+		height:1.2em;
+	}
+	.classlist input{
+		display:none;
+	}
+	
+	.dtspan{
+		border-bottom: 1px solid black;
+		display: inline-block;
+		font-size:.8em;
+		padding-left:1em;
+	}
+	#addform{
+		display:none;
+	}
+}
+@media screen{
+	
+	
+	.attcheckdone:before{
+		font-family:FontAwesome;
+		content:"\f123";
+		margin-right:3px;
+	}
+	.attcheck:before{
+		font-family:FontAwesome;
+		content:"\f096";
+		margin-right:3px;
+	}
+}
+@media screen and (max-device-width: 480px){
+  
+}
