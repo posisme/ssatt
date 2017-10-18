@@ -21,6 +21,9 @@ table th{
 	border:1px solid black;
 	text-align:left;
 }
+table .endtotal{
+	font-style:italic;
+}
 </style>
 </head>
 <body>
@@ -51,6 +54,7 @@ table th{
 		$dts[] = $a["attdate"];
 	}
 ?>
+<th class='endtotal'>Percent Present</th>
 </tr>
 <tr><th>Totals</th>
 <?php
@@ -61,11 +65,12 @@ $att = $conn->query("select count(individ) as attdatect from attendance group by
 		
 	}
 ?>
+<th class='endtotal'></th>
 </tr>
 <?php
 	$classes = $conn->query("select * from ssclass");
 	while($c = $classes->fetch_assoc()){
-		echo "<tr><th colspan='".(count($dts)+1)."'>".$c["classname"]."</th></tr>";
+		echo "<tr><th colspan='".(count($dts)+2)."'>".$c["classname"]."</th></tr>";
 		$r = $conn->prepare("select fname,lname,individ from classlistatt where ssid = ?");
 		$r->bind_param("i",$c["ssid"]);
 		$r->execute();
@@ -76,7 +81,7 @@ $att = $conn->query("select count(individ) as attdatect from attendance group by
 			foreach($dts as $d){
 				echo "<td id='".$individ."-".$d."'></td>";
 			}
-			echo "</tr>";
+			echo "<td class='indivtotal endtotal' sval=0 >0</td></tr>";
 		}
 		
 	}
@@ -84,10 +89,18 @@ $att = $conn->query("select count(individ) as attdatect from attendance group by
 ?>
 </table>
 <script>
+<?php
+	echo "var weeks = ".count($dts).";\n";
+?>
 	for(i=0;i<att.length;i++){
 		$("#"+att[i].individ+"-"+att[i].attdate).css("background-color","black");
 		$("#"+att[i].individ+"-"+att[i].attdate).css("color","white");
 		$("#"+att[i].individ+"-"+att[i].attdate).text("P");
+		var thiscount = parseInt($("#"+att[i].individ+"-"+att[i].attdate).closest("tr").find(".indivtotal").attr('sval'));
+		thiscount = thiscount + 1;
+		
+		$("#"+att[i].individ+"-"+att[i].attdate).closest("tr").find(".indivtotal").attr('sval',thiscount);
+		$("#"+att[i].individ+"-"+att[i].attdate).closest("tr").find(".indivtotal").text(Math.round((thiscount/weeks)*100)+"%");
 	}
 </script>
 <body>
