@@ -19,7 +19,10 @@
 	var att = [
 <?php
 	date_default_timezone_set('America/Chicago');
-	$conn = new mysqli('localhost','churchatt','hdaslkjdsflkhasdd&*8768','church');
+	$config = parse_ini_file('/var/www/ssattconfig.ini');
+	
+	$conn = new mysqli($config["mysqlhost"],$config["mysqluser"],$config["mysqlpassword"],$config["mysqldbname"]);
+	
 	$att = $conn->query("select * from attendance");
 	while($a = $att->fetch_assoc()){
 		echo "{individ:".$a["individ"].",attdate:'".$a["attdate"]."'},\n";
